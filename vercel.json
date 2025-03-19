@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "^/api/(.*)",
+      "dest": "/api/$1",
+      "headers": {
+        "Cache-Control": "no-cache, no-store, must-revalidate"
+      }
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "RATE_LIMIT_MAX": "100",
+    "RATE_LIMIT_WINDOW_MS": "60000",
+    "ALLOWED_DOMAINS": "",
+    "BLOCKED_DOMAINS": ""
+  }
+}
