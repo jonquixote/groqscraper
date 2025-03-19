@@ -8,15 +8,28 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   webpack: (config, { isServer }) => {
-    // Fix for undici package
     if (!isServer) {
+      // Avoid undici loading on client-side
       config.resolve.fallback = {
         ...config.resolve.fallback,
-        "undici": false
-      };
+        "undici": false,
+        "http": false,
+        "https": false,
+        "fetch": false
+      }
     }
-    return config;
+    // Handle specific loader issues
+    config.module.rules.push({
+      test: /\.js$/,
+      include: /node_modules/,
+      type: "javascript/auto",
+    })
+    
+    return config
   },
+  experimental: {
+    serverComponentsExternalPackages: ['undici', 'cheerio']
+  }
 }
 
 module.exports = nextConfig
